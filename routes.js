@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var Movie = require('./Models/Movie')
+
+//to fetch movies
+router.get('/movies',async(req,res)=>{
+    const imovie = await Movie.find()
+    res.send(imovie)
+})
+
+//to add the movies
 router.post("/movies",async(req,res)=>{
     const imovie = new Movie({
         name:req.body.name,
