@@ -9,6 +9,10 @@ mongoose.connect('mongodb://localhost:27017/movies').then(()=>{
     app.use(bodyParser.urlencoded({extended:false}))
     app.use('/api',route)
     
+    app.get('/', (req,res)=>{
+        res.sendFile('index.html',{root:__dirname})
+    })
+
     app.listen(3000,()=>{
         console.log('server started')
     })
