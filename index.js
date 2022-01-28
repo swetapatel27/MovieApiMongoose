@@ -13,7 +13,7 @@ mongoose.connect('mongodb+srv://studentdb:studentdb123@mycluster.jtfqi.mongodb.n
         res.sendFile('index.html',{root:__dirname})
     })
 
-    app.listen(3000,()=>{
+    app.listen((process.env.PORT||3000),()=>{
         console.log('server started')
     })
 }).catch((e)=>{
