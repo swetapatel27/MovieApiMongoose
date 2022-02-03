@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Movie = require('./Models/Movie')
-
-
+var User = require('./Models/User')
+var bcrypt = require('bcryptjs')
+var jwt = require('jsonwebtoken')
 
 
 
@@ -74,6 +75,34 @@ router.delete("/movies/:name",async(req,res)=>{
     })
 })
 
+
+router.post('/users',async(req,res)=>{
+    
+    //generate salt key
+    salt = await bcrypt.genSalt(10)
+    console.log(salt)
+
+    hashedpswd = await bcrypt.hash(req.body.password,salt)
+    console.log(hashedpswd)
+
+    const iuser = new User({
+        uname:req.body.uname,
+        password:hashedpswd
+    })  
+    await iuser.save((err,msg)=>{
+        if(err){
+            res.status(500).json({
+                "error":err
+            })
+        }
+        else{
+            res.status(200).json({
+                "My-message":msg
+            })
+        }
+    })
+
+})
 
 
 
