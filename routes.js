@@ -3,12 +3,13 @@ var router = express.Router();
 var Movie = require('./Models/Movie')
 var User = require('./Models/User')
 var bcrypt = require('bcryptjs')
-var jwt = require('jsonwebtoken')
+var jwt = require('jsonwebtoken');
+var verifyToken = require('./verifyToken')
 
 
 
 //to fetch movies
-router.get('/movies',async(req,res)=>{
+router.get('/movies',verifyToken,async(req,res)=>{
     const imovie = await Movie.find()
     res.send(imovie)
 })
@@ -104,7 +105,44 @@ router.post('/users',async(req,res)=>{
 
 })
 
+// router.post('/login',async(req,res)=>{
 
+//     const iuser = await User.findOne({uname:req.body.uname})
+//     if(!iuser){
+//         res.send("user does not exists")
+//     }
+//     else{
+
+//       const isValid = await bcrypt.compare(req.body.password,iuser.password)
+//       console.log(isValid)
+//         res.send(isValid)
+
+//     }
+
+
+// })
+
+
+
+router.post('/login',async(req,res)=>{
+    const user =await User.findOne({uname:req.body.uname})
+    if(!user){
+        return res.send("user not found")
+    }
+    const isValid = await bcrypt.compare(req.body.password,user.password)
+    console.log(isValid)
+
+
+//send token for verification
+
+    if(isValid){
+        const token = await jwt.sign({_id:user._id},"mytoken")
+        res.header('auth-token',token).send(token)
+    }
+    else{
+        res.send("invalid password")
+    }
+})
 
 
 
