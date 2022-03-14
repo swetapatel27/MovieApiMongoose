@@ -9,7 +9,7 @@ var verifyToken = require('./verifyToken')
 
 
 //to fetch movies
-router.get('/movies',verifyToken,async(req,res)=>{
+router.get('/movies',async(req,res)=>{
     const imovie = await Movie.find()
     res.send(imovie)
 })
