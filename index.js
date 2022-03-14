@@ -8,6 +8,7 @@ mongoose.connect('mongodb+srv://studentdb:studentdb123@mycluster.jtfqi.mongodb.n
 
     app = express();
     app.use(cors());
+    app.use(express.json())
     app.use(bodyParser.urlencoded({extended:false}))
     app.use('/api',route)
     

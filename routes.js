@@ -16,11 +16,13 @@ router.get('/movies',async(req,res)=>{
 
 //to add the movies
 router.post("/movies",async(req,res)=>{
+    
     const imovie = new Movie({
         name:req.body.name,
         rating:req.body.rating
     })
 
+    console.log(imovie)
     await imovie.save((err,msg)=>{
         if(err){
             res.status(500).json({
